@@ -51,7 +51,7 @@ export default function Home() {
   const [state, dispatch] = useReducer(reducer, init)
 
   return (
-    <svg width="800" height="800" onDoubleClick={(e) => {}}>
+    <svg width="800" height="800" onDoubleClick={(e) => {8}}>
       <Edge start="a" end="b" state={state} />
       <Edge start="b" end="c" state={state} />
       <Edge start="a" end="d" state={state} />
