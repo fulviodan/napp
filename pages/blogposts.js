@@ -10,11 +10,15 @@ export function List({ data }) {
   useEffect(() => {
     setData(data)
   }, [data])
-  return _data.map((el, i) => (
-    <Box onClick={(e) => setData([..._data, 2])} key={i}>
-      {el}
-    </Box>
-  ))
+  return (
+    <motion.ul animate="hidden">
+      {_data.map((el, i) => (
+        <motion.li onClick={(e) => setData([..._data, 2])} key={i}>
+          {el}
+        </motion.li>
+      ))}
+    </motion.ul>
+  )
 }
 
 function reducer(state = init, action) {
@@ -22,6 +26,7 @@ function reducer(state = init, action) {
   const { x: dx, y: dy } = action.delta
   return { ...state, [action.id]: { x: x + dx, y: y + dy } }
 }
+
 export function Edge({ start, end, state }) {
   const { x, y } = state[start] ? state[start] : { x: 0, y: 0 }
   const { x: ex, y: ey } = state[end] ? state[end] : { x: 0, y: 0 }
@@ -39,7 +44,7 @@ export function Node({ id, x, y, dispatch }) {
       }}
       cx={x}
       cy={y}
-      r="50"
+      r="20"
       fill="red"
     />
   )
@@ -51,17 +56,26 @@ export default function Home() {
   const [state, dispatch] = useReducer(reducer, init)
 
   return (
-    <svg width="800" height="800" onDoubleClick={(e) => {8}}>
-      <Edge start="a" end="b" state={state} />
-      <Edge start="b" end="c" state={state} />
-      <Edge start="a" end="d" state={state} />
-      <Edge start="b" end="e" state={state} />
-      <Edge start="b" end="d" state={state} />
-      <Edge start="c" end="d" state={state} />
+    <Flex align="center" h="100vh">
+      <svg
+        width="1000"
+        height="600"
+        onDoubleClick={(e) => {
+          8
+        }}
+        style={{ background: '#fafafa', margin: 'auto' }}
+      >
+        <Edge start="a" end="b" state={state} />
+        <Edge start="b" end="c" state={state} />
+        <Edge start="a" end="d" state={state} />
+        <Edge start="b" end="e" state={state} />
+        <Edge start="b" end="d" state={state} />
+        <Edge start="c" end="d" state={state} />
 
-      {Object.entries(state).map(([k, v]) => (
-        <Node id={k} x={0} y={0} key={k} dispatch={dispatch} />
-      ))}
-    </svg>
+        {Object.entries(state).map(([k, v]) => (
+          <Node id={k} x={0} y={0} key={k} dispatch={dispatch} />
+        ))}
+      </svg>
+    </Flex>
   )
 }
