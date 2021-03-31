@@ -7,19 +7,12 @@ import {
   Heading,
   List,
   ListItem,
+  ListIcon,
   Divider,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-} from '@chakra-ui/react'
-import { Button } from '@chakra-ui/button'
-import { useState } from 'react'
 
+} from '@chakra-ui/react'
+import { useState } from 'react'
+import {CheckIcon, CloseIcon} from '@chakra-ui/icons'
 const MotionBox = chakra(motion.div)
 
 const plans = [
@@ -116,8 +109,9 @@ export default function Pricing() {
             borderColor="gray.200"
             my={2}
             mx={4}
-            w={i === 1 ? '280px' : '240px'}
-            h={i === 1 ? '280px' : '240px'}
+            py={16}
+            w={i === 1 ? '300px' : '250px'}
+            minH={i === 1 ? '350px' : '200px'}
             borderRadius={12}
             justifyContent="space-between"
             alignItems="center"
@@ -125,25 +119,30 @@ export default function Pricing() {
             bg="whiteAlpha.800"
             pos="relative"
           >
-            <Heading bg="gray.50" as="h2" size="md" px={8} py={4}>
-              {plan.name}
-            </Heading>
+            <Flex
+              pos="absolute"
+              px={8}
+              py={4}
+              w="full"
+              h="60px"
+              top="0"
+              bg="gray.100"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Heading as="h2" size="md" px={8} py={4}>
+                {plan.name}
+              </Heading>
+            </Flex>
             {plan.features && (
-              <Table variant="simple" px={8} py={4}>
-                <TableCaption>Safe transaction</TableCaption>
-                <Tbody>
-                  {plan.features.map((feature, i) => (
-                    <Tr key={i}>
-                      <Td>{feature.name}</Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-                <Tfoot>
-                  <Tr>
-                    <Th>To convert</Th>
-                  </Tr>
-                </Tfoot>
-              </Table>
+              <List variant="simple" p={4}>
+                {plan.features.map((feature, i) => (
+                  <ListItem key={i} py={2} d="flex" justifyContent="space-between" alignItems="center" borderBottom="1px dotted" borderColor="gray.200">
+                    {feature.name}
+                    <ListIcon boxSize="10px" as={plan.included ? CheckIcon : CloseIcon} color="green.500" />
+                  </ListItem>
+                ))}
+              </List>
             )}
             <Flex
               pos="absolute"
@@ -152,7 +151,7 @@ export default function Pricing() {
               w="full"
               h="60px"
               bottom="0"
-              bg="cyan.300"
+              bg="red.300"
               justifyContent="center"
               alignItems="center"
             >
