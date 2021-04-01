@@ -1,49 +1,57 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import { motion } from 'framer-motion'
-import {
-  Flex,
-  chakra,
-  Heading,
-  List,
-  ListItem,
-  ListIcon,
-  Divider,
-
-} from '@chakra-ui/react'
+import { Flex, chakra, Heading, Text, Divider, Button, useColorModeValue } from '@chakra-ui/react'
 import { useState } from 'react'
-import {CheckIcon, CloseIcon} from '@chakra-ui/icons'
+import { Card } from '../shared/Card'
 const MotionBox = chakra(motion.div)
 
 const plans = [
   {
     name: 'Free',
     price: 'Free',
+    details: 'Editor / Month (excl. VAT)',
+    description: 'For anyone validating Framer as a professional prototyping tool.',
+    action: () => console.log('action free'),
+    label: 'Currently selected',
+    selected: true,
     features: [
-      { name: 'Lorem', included: true },
-      { name: 'Ipsum', included: true },
-      { name: 'Dolor', included: false },
-      { name: 'Sit amet', included: false },
+      { name: 'Unlimited viewers' },
+      { name: 'Up to 2 editors' },
+      { name: 'Up to 3 projects' },
+      { name: 'One manager' },
     ],
   },
   {
     name: 'Premium',
     price: '49$/month',
+    details: 'Editor / Month (excl. VAT)',
+    description: 'For teams that want to manage users and work with developers.',
+    action: () => console.log('action premium'),
+    label: 'Upgrade',
+    selected: false,
     features: [
-      { name: 'Lorem', included: true },
-      { name: 'Ipsum', included: true },
-      { name: 'Dolor', included: true },
-      { name: 'Sit amet', included: false },
+      { name: 'Unlimited projects' },
+      { name: 'Private share links' },
+      { name: 'Offline editing' },
+      { name: 'Desktop app' },
+      { name: 'Local file access' },
+      { name: 'Custom fonts' },
     ],
   },
   {
     name: 'Enterprise',
-    price: 'Call for enquire',
+    price: 'Custom',
+    description: 'For teams that want to manage users and work with developers.',
+    action: () => console.log('action enterprise'),
+    label: 'Contact us',
+    selected: false,
     features: [
-      { name: 'Lorem', included: true },
-      { name: 'Ipsum', included: true },
-      { name: 'Dolor', included: true },
-      { name: 'Sit amet', included: true },
+      { name: 'Everything in Premium' },
+      { name: 'Enterprise SSO' },
+      { name: 'Dedicated support ' },
+      { name: 'Onboarding & training' },
+      { name: 'Centralized billing' },
+      { name: 'Custom security' },
     ],
   },
 ]
@@ -53,6 +61,7 @@ export default function Pricing() {
     visible: {
       opacity: 1,
       transition: {
+        delay: 0.05,
         when: 'beforeChildren',
         staggerChildren: 0.3,
       },
@@ -65,14 +74,21 @@ export default function Pricing() {
     },
   }
   const item = {
-    hidden: { x: 0, scale: 0, opacity: 0 },
+    hidden: (i) => ({
+      x: 0,
+      scale: 0,
+      opacity: 0,
+      transition: {
+        delay: i * 0.05,
+      },
+    }),
     visible: (i) => ({
       x: 0,
       opacity: 1,
       scale: 1,
       delay: 1000,
       transition: {
-        delay: i * 0.1,
+        delay: i * 0.05,
       },
     }),
   }
@@ -87,76 +103,36 @@ export default function Pricing() {
       flexDirection="column"
       bgGradient="linear(to-l, #E9E9E9, #F0F0F0)"
     >
-      <Heading as="h1" size="2xl">
+      <Heading as="h1" size="md">
         Pricing
       </Heading>
+      <Text maxW={['100%, 70%', '50%']} mt={6} mx="auto" textAlign="center" color="gray.500">
+        Vel consectetur veritatis dolor tempore. Reiciendis est distinctio eos est et cupiditate in
+        aut. Minima rem voluptas voluptatem distinctio enim. Provident ut vero.
+      </Text>
       <Divider my="4" />
       <MotionBox
         initial="hidden"
-        animate="visible"
+        animate={animate ? 'hidden' : 'visible'}
         variants={list}
         d="flex"
+        mx={20}
         alignItems="center"
         justifyContent="center"
       >
         {plans.map((plan, i) => (
-          <MotionBox
-            key={i}
-            custom={i}
-            variants={item}
-            border="1px solid"
-            textAlign="center"
-            borderColor="gray.200"
-            my={2}
-            mx={4}
-            py={16}
-            w={i === 1 ? '300px' : '250px'}
-            minH={i === 1 ? '350px' : '200px'}
-            borderRadius={12}
-            justifyContent="space-between"
-            alignItems="center"
-            overflow="hidden"
-            bg="whiteAlpha.800"
-            pos="relative"
-          >
-            <Flex
-              pos="absolute"
-              px={8}
-              py={4}
-              w="full"
-              h="60px"
-              top="0"
-              bg="gray.100"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Heading as="h2" size="md" px={8} py={4}>
-                {plan.name}
-              </Heading>
-            </Flex>
-            {plan.features && (
-              <List variant="simple" p={4}>
-                {plan.features.map((feature, i) => (
-                  <ListItem key={i} py={2} d="flex" justifyContent="space-between" alignItems="center" borderBottom="1px dotted" borderColor="gray.200">
-                    {feature.name}
-                    <ListIcon boxSize="10px" as={plan.included ? CheckIcon : CloseIcon} color="green.500" />
-                  </ListItem>
-                ))}
-              </List>
-            )}
-            <Flex
-              pos="absolute"
-              px={8}
-              py={4}
-              w="full"
-              h="60px"
-              bottom="0"
-              bg="red.300"
-              justifyContent="center"
-              alignItems="center"
-            >
-              {plan.price}
-            </Flex>
+          <MotionBox key={i} custom={i} variants={item}>
+            <Card
+              name={plan.name}
+              features={plan.features}
+              price={plan.price}
+              details={plan.details}
+              description={plan.description}
+              action={plan.action}
+              label={plan.label}
+              selected={plan.selected}
+              valuedChoice={i === 1}
+            />
           </MotionBox>
         ))}
       </MotionBox>
