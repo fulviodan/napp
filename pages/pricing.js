@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { motion } from 'framer-motion'
-import { Flex, chakra, Heading, Text, Divider, Button, useColorModeValue } from '@chakra-ui/react'
-import { useState } from 'react'
+import { Flex, chakra, Heading, Text, Divider, Button, useColorModeValue, useMediaQuery } from '@chakra-ui/react'
 import { Card } from '../shared/Card'
 const MotionBox = chakra(motion.div)
 
@@ -92,12 +91,13 @@ export default function Pricing() {
       },
     }),
   }
-  const [animate, setAnimate] = useState(false)
+  const [isDesktop] = useMediaQuery("(min-width: 991px)")
 
   return (
     <Flex
-      w="100vw"
-      h="100vh"
+        p={16}
+      minW="100vw"
+      minH="100vh"
       align="center"
       justify="center"
       flexDirection="column"
@@ -113,9 +113,10 @@ export default function Pricing() {
       <Divider my="4" />
       <MotionBox
         initial="hidden"
-        animate={animate ? 'hidden' : 'visible'}
+        animate='visible'
         variants={list}
         d="flex"
+        flexDirection={isDesktop ? "row" : "column"}
         mx={20}
         alignItems="center"
         justifyContent="center"
@@ -136,6 +137,9 @@ export default function Pricing() {
           </MotionBox>
         ))}
       </MotionBox>
+      <Text maxW={['100%, 70%', '50%']} mt={6} mx="auto" textAlign="center" color="gray.400" fontSize="xs">
+          © Loko AI is a low code platform.
+      </Text>
     </Flex>
   )
 }
