@@ -91,7 +91,7 @@ export default function Pricing() {
       },
     }),
   }
-  const [isDesktop] = useMediaQuery("(min-width: 991px)")
+  const [isTablet] = useMediaQuery("(max-width: 992px)")
 
   return (
     <Flex
@@ -116,7 +116,7 @@ export default function Pricing() {
         animate='visible'
         variants={list}
         d="flex"
-        flexDirection={isDesktop ? "row" : "column"}
+        flexDirection={isTablet ? "column" : "row"}
         mx={20}
         alignItems="center"
         justifyContent="center"
