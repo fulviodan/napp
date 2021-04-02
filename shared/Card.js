@@ -2,7 +2,18 @@ import React from 'react'
 import { chakra, Box, Image, Flex, useColorModeValue, Link, Button } from '@chakra-ui/react'
 import { CheckIcon } from '@chakra-ui/icons'
 
-export const Card = ({ name, features, price, details, description, action, label, selected, valuedChoice, children }) => {
+export const Card = ({
+  name,
+  features,
+  price,
+  details,
+  description,
+  action,
+  label,
+  selected,
+  valuedChoice,
+  children,
+}) => {
   return (
     <Flex p={4} w="full" alignItems="center" justifyContent="center">
       <Box
@@ -16,12 +27,7 @@ export const Card = ({ name, features, price, details, description, action, labe
         minW="200px"
       >
         <Flex justifyContent="space-between" h={6}>
-          <chakra.span
-            fontSize=" 12px"
-            lineHeight="1.4"
-            fontWeight="600"
-            
-          >
+          <chakra.span fontSize=" 12px" lineHeight="1.4" fontWeight="600">
             {name}
           </chakra.span>
         </Flex>
@@ -49,7 +55,16 @@ export const Card = ({ name, features, price, details, description, action, labe
         </Box>
 
         <Flex justifyContent="space-between" alignItems="center" mt={8}>
-          <Button size="sm" w="90%" mx="auto" variant="outline" isDisabled={selected} rounded="full" colorScheme={valuedChoice ? 'white' : 'gray'} onClick={action}>
+          <Button
+            size="sm"
+            w="90%"
+            mx="auto"
+            variant="outline"
+            isDisabled={selected}
+            rounded="full"
+            colorScheme={valuedChoice ? 'whiteAlpha' : 'gray'}
+            onClick={action}
+          >
             {label}
           </Button>
         </Flex>

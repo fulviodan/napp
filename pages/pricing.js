@@ -1,7 +1,19 @@
 import Head from 'next/head'
 import { motion } from 'framer-motion'
-import { Flex, chakra, Heading, Text, Divider, Button, useColorModeValue, useMediaQuery } from '@chakra-ui/react'
+import {
+  Flex,
+  chakra,
+  Heading,
+  Text,
+  Divider,
+  Button,
+  useColorModeValue,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import { Card } from '../shared/Card'
+import { Switch } from '../shared/Switch'
+import { TypeText } from '../shared/Input'
+import { useState } from 'react'
 const MotionBox = chakra(motion.div)
 
 const plans = [
@@ -91,11 +103,12 @@ export default function Pricing() {
       },
     }),
   }
-  const [isTablet] = useMediaQuery("(max-width: 992px)")
+  const [isTablet] = useMediaQuery('(max-width: 992px)')
+  const [animate, setAnimate] = useState(false)
 
   return (
     <Flex
-        p={16}
+      p={16}
       minW="100vw"
       minH="100vh"
       align="center"
@@ -113,10 +126,10 @@ export default function Pricing() {
       <Divider my="4" />
       <MotionBox
         initial="hidden"
-        animate='visible'
+        animate="visible"
         variants={list}
         d="flex"
-        flexDirection={isTablet ? "column" : "row"}
+        flexDirection={isTablet ? 'column' : 'row'}
         mx={20}
         alignItems="center"
         justifyContent="center"
@@ -137,8 +150,15 @@ export default function Pricing() {
           </MotionBox>
         ))}
       </MotionBox>
-      <Text maxW={['100%, 70%', '50%']} mt={6} mx="auto" textAlign="center" color="gray.400" fontSize="xs">
-          © Loko AI is a low code platform.
+      <Text
+        maxW={['100%, 70%', '50%']}
+        mt={6}
+        mx="auto"
+        textAlign="center"
+        color="gray.400"
+        fontSize="xs"
+      >
+        © Loko AI is a low code platform.
       </Text>
     </Flex>
   )
